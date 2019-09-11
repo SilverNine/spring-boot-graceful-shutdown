@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  me.silvernine.boot.shutdown.autoconfigure.GracefulShutdownAutoConfiguration
