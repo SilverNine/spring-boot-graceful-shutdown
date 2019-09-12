@@ -1,11 +1,10 @@
 package me.silvernine.boot.shutdown.autoconfigure;
 
+import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.ListenableFuture;
 import org.asynchttpclient.Response;
 import org.junit.After;
 import org.junit.Before;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,8 +25,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.asynchttpclient.Dsl.asyncHttpClient;
 import static org.asynchttpclient.Dsl.get;
 
+@Slf4j
 public abstract class AbstractIT {
-    protected static final Logger LOG = LoggerFactory.getLogger(NonGracefulShutdownIT.class);
 
     protected static final Semaphore REQ_RECEIVED = new Semaphore(0);
     protected static final Semaphore REQ_FINISHED = new Semaphore(0);
@@ -102,11 +101,11 @@ public abstract class AbstractIT {
             public ResponseEntity<?> get() throws InterruptedException {
                 REQ_RECEIVED.release();
 
-                LOG.debug("Received get request, try to acquire semaphore");
+                log.debug("Received get request, try to acquire semaphore");
 
                 REQ_FINISHED.acquire();
 
-                LOG.debug("Semaphore acquired, returning empty response");
+                log.debug("Semaphore acquired, returning empty response");
 
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
