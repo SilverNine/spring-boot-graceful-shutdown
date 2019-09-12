@@ -59,8 +59,8 @@ Configuration
 | Key                       | Default value | Description |
 | ------------------------- | ------------- | ----------- |
 | graceful.shutdown.enabled | false         | Indicates whether graceful shutdown is enabled or not. | 
-| graceful.shutdown.timeout | 60            | The number of seconds to wait for active threads to finish before shutting down the Tomcat connector. |
-| graceful.shutdown.wait    | 30            | The number of seconds to return "out of service" on the health page before starting the graceful shutdown. |
+| graceful.shutdown.timeout | 60s           | The number of seconds to wait for active threads to finish before shutting down the Tomcat connector. |
+| graceful.shutdown.wait    | 30s           | The number of seconds to return "out of service" on the health page before starting the graceful shutdown. |
 
 
 Alternative implementations
