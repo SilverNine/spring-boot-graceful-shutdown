@@ -1,7 +1,6 @@
 package me.silvernine.boot.shutdown.autoconfigure;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -9,8 +8,8 @@ import java.time.Duration;
 import java.util.StringJoiner;
 
 @ConfigurationProperties("graceful.shutdown")
+@Slf4j
 public class GracefulShutdownProperties implements InitializingBean {
-    private static final Logger LOG = LoggerFactory.getLogger(GracefulShutdownProperties.class);
 
     /**
      * Indicates whether graceful shutdown is enabled or not.
@@ -63,6 +62,6 @@ public class GracefulShutdownProperties implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        LOG.info(toString());
+        log.info(toString());
     }
 }
