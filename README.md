@@ -42,7 +42,7 @@ Undertow and/or Jetty are not yet supported.
 Installation
 ------------
 
-1. Add the following Maven dependency:
+Add the following Maven dependency:
 
 ```xml
 <dependency>
@@ -50,6 +50,12 @@ Installation
     <artifactId>spring-graceful-shutdown</artifactId>
     <version>X.X.X</version>
 </dependency>
+```
+
+Add the following Gradle dependency:
+
+```groovy
+compile 'me.silvernine:spring-boot-graceful-shutdown:X.X.X'
 ```
 
 
