@@ -26,7 +26,7 @@ import static org.asynchttpclient.Dsl.asyncHttpClient;
 import static org.asynchttpclient.Dsl.get;
 
 @Slf4j
-public abstract class AbstractIT {
+public abstract class AbstractTest {
 
     protected static final Semaphore REQ_RECEIVED = new Semaphore(0);
     protected static final Semaphore REQ_FINISHED = new Semaphore(0);

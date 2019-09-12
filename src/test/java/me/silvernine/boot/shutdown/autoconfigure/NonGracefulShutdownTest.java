@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 
-public class NonGracefulShutdownIT extends AbstractIT {
+public class NonGracefulShutdownTest extends AbstractTest {
     @Override
     protected void configure(Properties properties) {
     }

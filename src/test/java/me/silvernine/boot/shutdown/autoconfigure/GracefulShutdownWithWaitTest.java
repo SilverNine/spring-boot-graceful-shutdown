@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GracefulShutdownWithWaitIT extends AbstractIT {
+public class GracefulShutdownWithWaitTest extends AbstractTest {
     @Override
     protected void configure(Properties properties) {
         properties.setProperty("graceful.shutdown.enabled", "true");
