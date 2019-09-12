@@ -6,14 +6,14 @@ import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 public class GracefulShutdownTomcatContainerCustomizer
         implements WebServerFactoryCustomizer<TomcatServletWebServerFactory> {
 
-    private final GracefulShutdownTomcatConnectorCustomizer connectorCustomizer;
+    private final GracefulShutdownTomcatConnectorCustomizer gracefulShutdownTomcatConnectorCustomizer;
 
-    public GracefulShutdownTomcatContainerCustomizer(GracefulShutdownTomcatConnectorCustomizer connectorCustomizer) {
-        this.connectorCustomizer = connectorCustomizer;
+    public GracefulShutdownTomcatContainerCustomizer(GracefulShutdownTomcatConnectorCustomizer gracefulShutdownTomcatConnectorCustomizer) {
+        this.gracefulShutdownTomcatConnectorCustomizer = gracefulShutdownTomcatConnectorCustomizer;
     }
 
     @Override
-    public void customize(TomcatServletWebServerFactory factory) {
-        factory.addConnectorCustomizers(connectorCustomizer);
+    public void customize(TomcatServletWebServerFactory tomcatServletWebServerFactory) {
+        tomcatServletWebServerFactory.addConnectorCustomizers(gracefulShutdownTomcatConnectorCustomizer);
     }
 }

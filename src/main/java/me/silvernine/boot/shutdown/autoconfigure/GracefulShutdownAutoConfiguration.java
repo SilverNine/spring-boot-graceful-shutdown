@@ -16,24 +16,24 @@ public class GracefulShutdownAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public GracefulShutdownHealthIndicator gracefulShutdownHealthIndicator(
-            ApplicationContext ctx, GracefulShutdownProperties props) {
+            ApplicationContext applicationContext, GracefulShutdownProperties gracefulShutdownProperties) {
 
-        return new GracefulShutdownHealthIndicator(ctx, props);
+        return new GracefulShutdownHealthIndicator(applicationContext, gracefulShutdownProperties);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public GracefulShutdownTomcatContainerCustomizer gracefulShutdownTomcatContainerCustomizer(
-            GracefulShutdownTomcatConnectorCustomizer connectorCustomizer) {
+            GracefulShutdownTomcatConnectorCustomizer gracefulShutdownTomcatConnectorCustomizer) {
 
-        return new GracefulShutdownTomcatContainerCustomizer(connectorCustomizer);
+        return new GracefulShutdownTomcatContainerCustomizer(gracefulShutdownTomcatConnectorCustomizer);
     }
 
     @Bean
     @ConditionalOnMissingBean
     public GracefulShutdownTomcatConnectorCustomizer gracefulShutdownTomcatConnectorCustomizer(
-            ApplicationContext ctx, GracefulShutdownProperties props) {
+            ApplicationContext applicationContext, GracefulShutdownProperties gracefulShutdownProperties) {
 
-        return new GracefulShutdownTomcatConnectorCustomizer(ctx, props);
+        return new GracefulShutdownTomcatConnectorCustomizer(applicationContext, gracefulShutdownProperties);
     }
 }

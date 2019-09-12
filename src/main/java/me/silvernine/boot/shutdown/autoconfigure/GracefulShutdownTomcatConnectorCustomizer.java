@@ -21,14 +21,14 @@ public class GracefulShutdownTomcatConnectorCustomizer implements TomcatConnecto
     private static final int CHECK_INTERVAL = 10;
 
     private final ApplicationContext applicationContext;
-    private final GracefulShutdownProperties props;
+    private final GracefulShutdownProperties gracefulShutdownProperties;
 
     private Connector connector;
 
 
-    public GracefulShutdownTomcatConnectorCustomizer(ApplicationContext ctx, GracefulShutdownProperties props) {
-        this.applicationContext = ctx;
-        this.props = props;
+    public GracefulShutdownTomcatConnectorCustomizer(ApplicationContext applicationContext, GracefulShutdownProperties gracefulShutdownProperties) {
+        this.applicationContext = applicationContext;
+        this.gracefulShutdownProperties = gracefulShutdownProperties;
     }
 
 
@@ -40,12 +40,12 @@ public class GracefulShutdownTomcatConnectorCustomizer implements TomcatConnecto
 
     @EventListener(ContextClosedEvent.class)
     @Order(Ordered.HIGHEST_PRECEDENCE + 1)
-    public void contextClosed(ContextClosedEvent event) throws InterruptedException {
+    public void contextClosed(ContextClosedEvent contextClosedEvent) throws InterruptedException {
         if (connector == null) {
             return;
         }
 
-        if (isEventFromLocalContext(event)) {
+        if (isEventFromLocalContext(contextClosedEvent)) {
             stopAcceptingNewRequests();
             shutdownThreadPoolExecutor();
         }
@@ -60,31 +60,31 @@ public class GracefulShutdownTomcatConnectorCustomizer implements TomcatConnecto
 
 
     private void shutdownThreadPoolExecutor() throws InterruptedException {
-        ThreadPoolExecutor executor = getThreadPoolExecutor();
+        ThreadPoolExecutor threadPoolExecutor = getThreadPoolExecutor();
 
-        if (executor != null) {
-            executor.shutdown();
-            awaitTermination(executor);
+        if (threadPoolExecutor != null) {
+            threadPoolExecutor.shutdown();
+            awaitTermination(threadPoolExecutor);
         }
     }
 
 
-    private void awaitTermination(ThreadPoolExecutor executor) throws InterruptedException {
-        for (long remaining = props.getTimeout().getSeconds(); remaining > 0; remaining -= CHECK_INTERVAL) {
-            if (executor.awaitTermination(CHECK_INTERVAL, TimeUnit.SECONDS)) {
+    private void awaitTermination(ThreadPoolExecutor threadPoolExecutor) throws InterruptedException {
+        for (long remaining = gracefulShutdownProperties.getTimeout().getSeconds(); remaining > 0; remaining -= CHECK_INTERVAL) {
+            if (threadPoolExecutor.awaitTermination(CHECK_INTERVAL, TimeUnit.SECONDS)) {
                 return;
             }
 
-            log.info("{} thread(s) active, {} seconds remaining", executor.getActiveCount(), remaining);
+            log.info("{} thread(s) active, {} seconds remaining", threadPoolExecutor.getActiveCount(), remaining);
         }
 
-        logMessageIfThereAreStillActiveThreads(executor);
+        logMessageIfThereAreStillActiveThreads(threadPoolExecutor);
     }
 
 
-    private void logMessageIfThereAreStillActiveThreads(ThreadPoolExecutor executor) {
-        if (executor.getActiveCount() > 0) {
-            log.warn("{} thread(s) still active, force shutdown", executor.getActiveCount());
+    private void logMessageIfThereAreStillActiveThreads(ThreadPoolExecutor threadPoolExecutor) {
+        if (threadPoolExecutor.getActiveCount() > 0) {
+            log.warn("{} thread(s) still active, force shutdown", threadPoolExecutor.getActiveCount());
         }
     }
 
@@ -100,7 +100,7 @@ public class GracefulShutdownTomcatConnectorCustomizer implements TomcatConnecto
     }
 
 
-    private boolean isEventFromLocalContext(ContextClosedEvent event) {
-        return event.getApplicationContext().equals(applicationContext);
+    private boolean isEventFromLocalContext(ContextClosedEvent contextClosedEvent) {
+        return contextClosedEvent.getApplicationContext().equals(applicationContext);
     }
 }

@@ -20,9 +20,9 @@ public class GracefulShutdownHealthIndicator implements HealthIndicator {
     private Health health = Health.up().build();
 
 
-    public GracefulShutdownHealthIndicator(ApplicationContext ctx, GracefulShutdownProperties props) {
-        this.applicationContext = ctx;
-        this.props = props;
+    public GracefulShutdownHealthIndicator(ApplicationContext applicationContext, GracefulShutdownProperties gracefulShutdownProperties) {
+        this.applicationContext = applicationContext;
+        this.props = gracefulShutdownProperties;
     }
 
 
@@ -34,8 +34,8 @@ public class GracefulShutdownHealthIndicator implements HealthIndicator {
 
     @EventListener(ContextClosedEvent.class)
     @Order(Ordered.HIGHEST_PRECEDENCE)
-    public void contextClosed(ContextClosedEvent event) throws InterruptedException {
-        if (isEventFromLocalContext(event)) {
+    public void contextClosed(ContextClosedEvent contextClosedEvent) throws InterruptedException {
+        if (isEventFromLocalContext(contextClosedEvent)) {
             updateHealthToOutOfService();
             waitForKubernetesToSeeOutOfService();
         }
@@ -56,7 +56,7 @@ public class GracefulShutdownHealthIndicator implements HealthIndicator {
     }
 
 
-    private boolean isEventFromLocalContext(ContextClosedEvent event) {
-        return event.getApplicationContext().equals(applicationContext);
+    private boolean isEventFromLocalContext(ContextClosedEvent contextClosedEvent) {
+        return contextClosedEvent.getApplicationContext().equals(applicationContext);
     }
 }
