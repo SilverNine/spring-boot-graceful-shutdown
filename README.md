@@ -62,7 +62,7 @@ compile 'me.silvernine:spring-boot-graceful-shutdown:X.X.X'
 Configuration
 -------------
 
-| Key                       | Default Value | Description |
+| Key                       | Default value | Description |
 | ------------------------- | ------------- | ----------- |
 | graceful.shutdown.enabled | false         | Indicates whether graceful shutdown is enabled or not. | 
 | graceful.shutdown.timeout | 60s           | The number of seconds to wait for active threads to finish before shutting down the Tomcat connector. |
