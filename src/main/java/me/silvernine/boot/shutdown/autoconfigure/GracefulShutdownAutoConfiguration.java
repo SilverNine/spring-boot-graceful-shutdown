@@ -1,5 +1,6 @@
 package me.silvernine.boot.shutdown.autoconfigure;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(havingValue = "true", prefix = "graceful.shutdown", name = "enabled")
 @ConditionalOnWebApplication
 @Configuration
+@Slf4j
 @EnableConfigurationProperties(GracefulShutdownProperties.class)
 public class GracefulShutdownAutoConfiguration {
     @Bean
