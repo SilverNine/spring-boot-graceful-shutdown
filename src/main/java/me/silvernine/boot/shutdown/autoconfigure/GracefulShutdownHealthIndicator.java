@@ -15,14 +15,14 @@ import org.springframework.core.annotation.Order;
 public class GracefulShutdownHealthIndicator implements HealthIndicator {
 
     private final ApplicationContext applicationContext;
-    private final GracefulShutdownProperties props;
+    private final GracefulShutdownProperties gracefulShutdownProperties;
 
     private Health health = Health.up().build();
 
 
     public GracefulShutdownHealthIndicator(ApplicationContext applicationContext, GracefulShutdownProperties gracefulShutdownProperties) {
         this.applicationContext = applicationContext;
-        this.props = gracefulShutdownProperties;
+        this.gracefulShutdownProperties = gracefulShutdownProperties;
     }
 
 
@@ -50,9 +50,9 @@ public class GracefulShutdownHealthIndicator implements HealthIndicator {
 
 
     private void waitForKubernetesToSeeOutOfService() throws InterruptedException {
-        log.info("Wait {} seconds for Kubernetes to see the out of service status", props.getWait().getSeconds());
+        log.info("Wait {} seconds for Kubernetes to see the out of service status", gracefulShutdownProperties.getWait().getSeconds());
 
-        Thread.sleep(props.getWait().toMillis());
+        Thread.sleep(gracefulShutdownProperties.getWait().toMillis());
     }
 
 
