@@ -35,8 +35,8 @@ Next, by allowing the Tomcat thread pool a configurable amount of time to finish
 Limitations
 -----------
 
-Currently this project only supports Tomcat as embedded web container for Spring Boot. 
-Undertow and/or Jetty are not yet supported.
+1. Currently this project only supports Tomcat as embedded web container for Spring Boot. ( Undertow and/or Jetty are not yet supported. )
+2. org.springframework.boot:spring-boot-starter-actuator is required
 
 
 Installation
@@ -45,6 +45,11 @@ Installation
 for Maven:
 
 ```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-actuator</artifactId>
+    <version>X.X.X.RELEASE</version>
+</dependency>
 <dependency>
     <groupId>me.silvernine</groupId>
     <artifactId>spring-graceful-shutdown</artifactId>
@@ -55,6 +60,7 @@ for Maven:
 for Gradle:
 
 ```groovy
+compile 'org.springframework.boot:spring-boot-starter-actuator:X.X.X.RELEASE'
 compile 'me.silvernine:spring-boot-graceful-shutdown:X.X.X'
 ```
 
